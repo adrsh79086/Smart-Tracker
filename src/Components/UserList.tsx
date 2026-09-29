@@ -33,7 +33,7 @@ const UserList = () => {
 
   return (
         <>
-    <div className="product-count">
+  <div className="product-count">
   <h3>Total Products</h3>
   <h1>{users.length}</h1>
 </div>

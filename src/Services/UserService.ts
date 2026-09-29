@@ -1,24 +1,36 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/products";
+const API_URL = import.meta.env.VITE_API_URL;
 
-// GET Products
+// GET All Products
 export const getUsers = async () => {
-  const response = await axios.get(API_URL);
+  const response = await axios.get(`${API_URL}/products`);
+
+  return response.data;
+};
+
+// GET Product By ID
+export const getUserById = async (id: number) => {
+  const response = await axios.get(`${API_URL}/products/${id}`);
 
   return response.data;
 };
 
 // ADD Product
 export const addUser = async (product: any) => {
-  const response = await axios.post(`${API_URL}/add`, product);
+  const response = await axios.post(
+    `${API_URL}/products/add`,
+    product
+  );
 
   return response.data;
 };
 
 // DELETE Product
 export const deleteUser = async (id: number) => {
-  const response = await axios.delete(`${API_URL}/${id}`);
+  const response = await axios.delete(
+    `${API_URL}/products/${id}`
+  );
 
   return response.data;
 };
@@ -29,7 +41,7 @@ export const updateUser = async (
   product: any
 ) => {
   const response = await axios.put(
-    `${API_URL}/${id}`,
+    `${API_URL}/products/${id}`,
     product
   );
 
