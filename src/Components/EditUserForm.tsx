@@ -1,104 +1,106 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { updateUser } from "../Services/UserService";
-import type { User } from "../types/user";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+import {
+  getUserById,
+  updateUser,
+} from "../Services/UserService";
 
 const EditUserForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [age, setAge] = useState<number | "">("");
-  const [email, setEmail] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      price: "",
+    },
+
+    validationSchema: Yup.object({
+      name: Yup.string()
+        .required("Product name is required"),
+
+      price: Yup.number()
+        .typeError("Price must be a number")
+        .required("Price is required")
+        .positive("Price must be greater than 0"),
+    }),
+
+    onSubmit: async (values) => {
+      if (!id) return;
+
+      try {
+        const updatedProduct = {
+          name: values.name,
+          price: Number(values.price),
+        };
+
+        await updateUser(Number(id), updatedProduct);
+
+        navigate("/");
+      } catch (error) {
+        console.log("Error updating product:", error);
+      }
+    },
+  });
 
   useEffect(() => {
-    const savedUsers = localStorage.getItem("users");
+    const fetchProduct = async () => {
+      if (!id) return;
 
-console.log("URL ID:", id);
-  console.log("Saved Users:", savedUsers);
-    if (!savedUsers || !id) {
-      return;
-    }
+      try {
+        const product = await getUserById(Number(id));
 
-    const users: User[] = JSON.parse(savedUsers);
-
-    const user = users.find(
-      (user) => user.id === Number(id)
-    );
-
-    if (user) {
-      setFirstName(user.firstName);
-      setLastName(user.lastName);
-      setAge(user.age);
-      setEmail(user.email);
-    }
-  }, [id]);
-
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
-
-    if (age === "" || !id) {
-      return;
-    }
-
-    const updatedUser = {
-      firstName,
-      lastName,
-      age,
-      email,
+        formik.setValues({
+          name: product.name,
+          price: String(product.price),
+        });
+      } catch (error) {
+        console.log("Error fetching product:", error);
+      }
     };
 
-    try {
-      await updateUser(Number(id), updatedUser);
-
-      navigate("/");
-    } catch (error) {
-      console.log("Error updating user:", error);
-    }
-  };
+    fetchProduct();
+  }, [id]);
 
   return (
-    <form className="user-form" onSubmit={handleSubmit}>
-      <h2>Edit User</h2>
+    <form
+      className="user-form"
+      onSubmit={formik.handleSubmit}
+    >
+      <h2>Edit Product</h2>
 
       <input
         type="text"
-        placeholder="First Name"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
+        name="name"
+        placeholder="Product Name"
+        value={formik.values.name}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
 
-      <input
-        type="text"
-        placeholder="Last Name"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-      />
+      {formik.touched.name && formik.errors.name && (
+        <p>{formik.errors.name}</p>
+      )}
 
       <input
         type="number"
-        placeholder="Age"
-        value={age}
-        onChange={(e) =>
-          setAge(
-            e.target.value === ""
-              ? ""
-              : Number(e.target.value)
-          )
-        }
+        name="price"
+        placeholder="Price"
+        value={formik.values.price}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+      {formik.touched.price && formik.errors.price && (
+        <p>{formik.errors.price}</p>
+      )}
 
-      <button type="submit">Update User</button>
+      <button type="submit">
+        Update Product
+      </button>
     </form>
   );
 };
