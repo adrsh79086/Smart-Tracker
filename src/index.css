@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f6fa;
+}
+
+.navbar {
+  width: 100%;
+  padding: 18px 30px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+}
+
+.navbar h1 {
+  font-size: 24px;
+  color: #222;
+}
+
+.add-user-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.add-user-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.user-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 30px;
+}
+
+.user-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.user-card h2 {
+  margin-bottom: 12px;
+}
+
+.user-card p {
+  margin: 6px 0;
+  color: #555;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.card-actions button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.user-form {
+  width: 450px;
+  margin: 40px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.user-form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.user-form input {
+  width: 100%;
+  padding: 11px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+}
+
+.user-form input:focus {
+  border-color: #2563eb;
+}
+
+.user-form button {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.user-form button:hover {
+  background-color: #1d4ed8;
+}
+.id-btn {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.id-btn button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.id-btn button:first-child {
+  background-color: #1976d2;
+  color: white;
+}
+
+.id-btn button:last-child {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.id-btn button:hover {
+  opacity: 0.85;
+}
+.product-count {
+  width: 200px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background: #f5f5f5;
+}
+
+.product-count h3 {
+  margin: 0;
+}
+
+.product-count h1 {
+  margin: 10px 0 0;
+}
